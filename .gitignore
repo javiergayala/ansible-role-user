@@ -1,0 +1,9 @@
+roles/
+.vagrant
+.molecule
+tests/__pycache__
+*.retry
+.cache/
+.pyenv/
+*.pyc
+__pycache__/

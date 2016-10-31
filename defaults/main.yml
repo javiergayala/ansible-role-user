@@ -1,0 +1,10 @@
+---
+# defaults file for javiergayala.user
+# Maximum number of days before password must be changed
+user_pass_max_days: 90
+# Path to the login.defs file
+user_login_defs_path: "/etc/login.defs"
+# Max number of inactive days before account is locked
+user_inactive_days_pci: 45
+# Path to the useradd file
+user_useradd_path: "/etc/default/useradd"

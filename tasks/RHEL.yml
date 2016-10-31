@@ -1,0 +1,18 @@
+---
+- block:
+  - name: ensure password expiration is set in login.defs
+    lineinfile:
+      dest: "{{ user_login_defs_path }}"
+      state: present
+      regexp: ^PASS_MAX_DAYS\s+\d+$
+      line: "PASS_MAX_DAYS {{ user_pass_max_days }}"
+      backup: yes
+
+  - name: set accounts to auto lock if they are inactive for a number of days
+    lineinfile:
+      dest: "{{ user_useradd_path }}"
+      state: present
+      regexp: ^INACTIVE=
+      line: "INACTIVE={{ user_inactive_days_pci }}"
+      backup: yes
+  when: "'pci' in group_names"

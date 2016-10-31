@@ -1,0 +1,31 @@
+---
+molecule:
+  ignore_paths:
+    - .git
+    - .vagrant
+    - .molecule
+    - .pyenv
+    - roles
+driver:
+  name: docker
+docker:
+  # 'build_image' defines whether or not to rebuild the docker image with python
+  # support.  The image we use already has Python, so no need to build.
+  build_image: no
+  containers:
+    # - name: node1-pci
+    #   image: geerlingguy/docker-centos7-ansible
+    #   image_version: latest
+    #   # privileged: True
+    #   ansible_groups:
+    #     - pci
+    - name: node2-nopci
+      image: geerlingguy/docker-centos7-ansible
+      image_version: latest
+      # privileged: True
+      ansible_groups:
+        - non-pci
+verifier:
+  name: testinfra
+# ansible:
+#   requirements_file: requirements.yml

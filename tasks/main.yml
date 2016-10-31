@@ -1,0 +1,4 @@
+---
+# tasks file for javiergayala.user
+- include: RHEL.yml
+  when: ansible_os_family == "RedHat"
