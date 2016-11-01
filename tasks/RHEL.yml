@@ -1,14 +1,20 @@
 ---
-- name: ensure ssh packages installed
-  package:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - openssh
-    - openssh-clients
-    - openssh-server
-
 - block:
+  - name: ensure sshd only accepts key-based auth
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      state: present
+      regexp: "{{ item.regexp }}"
+      line: "{{ item.line }}"
+      backup: yes
+    with_items:
+      - { regexp: '^(#)?PubkeyAuthentication (yes|no)$', line: 'PubkeyAuthentication yes' }
+      - { regexp: '^(#)?ChallengeResponseAuthentication (yes|no)$', line: 'ChallengeResponseAuthentication no' }
+      - { regexp: '^(#)?PasswordAuthentication (yes|no)$', line: 'PasswordAuthentication no' }
+      - { regexp: '^(#)?UsePAM (yes|no)$', line: 'UsePAM yes' }
+    notify:
+      - restart sshd
+
   - name: ensure password expiration is set in login.defs
     lineinfile:
       dest: "{{ user_login_defs_path }}"

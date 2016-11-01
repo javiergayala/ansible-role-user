@@ -1,2 +1,6 @@
 ---
-# handlers file for javiergayala.user
+# handlers file for ansible-user
+- name: restart sshd
+  service:
+    name: sshd
+    state: restarted

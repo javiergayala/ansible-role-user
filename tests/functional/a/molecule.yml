@@ -11,12 +11,15 @@ driver:
 docker:
   # 'build_image' defines whether or not to rebuild the docker image with python
   # support.  The image we use already has Python, so no need to build.
-  build_image: no
+  # build_image: no
   containers:
     - name: node-a
+      build_image: yes
+      dockerfile: '../Dockerfile'
       image: geerlingguy/docker-centos7-ansible
       image_version: latest
-      # privileged: True
+      privileged: True
+      command: '/lib/systemd/systemd'
       ansible_groups:
         - pci
 verifier:
