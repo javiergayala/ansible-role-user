@@ -39,6 +39,4 @@
       key: "{{ item.ssh_key }}"
     when: item.ssh_key is defined
     with_items: "{{ raxusers }}"
-
-
-  when: raxusers is defined and raxusers|length > 0
+  when: raxusers|length > 0

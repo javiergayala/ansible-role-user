@@ -10,3 +10,6 @@ user_inactive_days_pci: 45
 user_useradd_path: "/etc/default/useradd"
 # Generate SSH key
 user_gen_sshkey: yes
+
+# initialize raxusers
+raxusers: []
