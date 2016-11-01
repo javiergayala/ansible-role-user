@@ -25,7 +25,7 @@ ansible:
   config_file: ./ansible.cfg
   group_vars:
     pci:
-      - users:
+      - raxusers:
         - name: deployment
           ssh_key: >
             ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGY

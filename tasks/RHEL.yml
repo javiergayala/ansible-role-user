@@ -1,4 +1,13 @@
 ---
+- name: ensure ssh packages installed
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - openssh
+    - openssh-clients
+    - openssh-server
+
 - block:
   - name: ensure password expiration is set in login.defs
     lineinfile:
@@ -16,3 +25,20 @@
       line: "INACTIVE={{ user_inactive_days_pci }}"
       backup: yes
   when: "'pci' in group_names"
+
+- block:
+  - name: create users
+    user:
+      name: "{{ item.name }}"
+      generate_ssh_key: "{{ user_gen_sshkey }}"
+    with_items: "{{ raxusers }}"
+
+  - name: authorized_keys for users
+    authorized_key:
+      user: "{{ item.name }}"
+      key: "{{ item.ssh_key }}"
+    when: item.ssh_key is defined
+    with_items: "{{ raxusers }}"
+
+
+  when: raxusers is defined and raxusers|length > 0

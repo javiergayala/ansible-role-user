@@ -8,3 +8,5 @@ user_login_defs_path: "/etc/login.defs"
 user_inactive_days_pci: 45
 # Path to the useradd file
 user_useradd_path: "/etc/default/useradd"
+# Generate SSH key
+user_gen_sshkey: yes
