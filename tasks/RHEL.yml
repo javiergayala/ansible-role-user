@@ -39,4 +39,12 @@
       key: "{{ item.ssh_key }}"
     when: item.ssh_key is defined
     with_items: "{{ raxusers }}"
+
+  - name: add user to sudoers file
+    lineinfile:
+      dest: /etc/sudoers
+      regexp: "^{{ item.name }}.*ALL$"
+      line: "{{ item.name }}  ALL=(ALL)  NOPASSWD:ALL"
+    when: item.sudoers is defined and item.sudoers
+    with_items: "{{ raxusers }}"
   when: raxusers|length > 0

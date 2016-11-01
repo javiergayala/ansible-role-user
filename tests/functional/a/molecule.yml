@@ -34,6 +34,7 @@ ansible:
             QPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbU
             vxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCz
             RdK8jlqm8tehUc9c9WhQ== vagrant insecure public key
+          sudoers: yes
         - name: user1
           ssh_key: >
             ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGY
@@ -42,3 +43,5 @@ ansible:
             QPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbU
             vxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCz
             RdK8jlqm8tehUc9c9WhQ== vagrant insecure public key
+          sudoers: no
+        - name: user2

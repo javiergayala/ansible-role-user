@@ -1,22 +1,37 @@
-Role Name
+ansible-user
 =========
 
-A brief description of the role goes here.
-
-Requirements
-------------
-
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role creates the users needed on the servers for the rswebteam's users.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+- ```raxusers```: list containing dictionaries of users to add
+  - ```name```: username to create
+  - ```ssh_key```: text string containing the user's public ssh key which will be placed in ```/home/$USER/.ssh/authorized_keys```
+  - ```sudoers```: if set to ```yes```, user will be added to the server's sudoers file.
 
-Dependencies
-------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+    - raxusers:
+      - name: deployment
+        ssh_key: >
+          ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGY
+          e7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoP
+          kcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0z
+          QPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbU
+          vxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCz
+          RdK8jlqm8tehUc9c9WhQ== vagrant insecure public key
+        sudoers: yes
+      - name: user1
+        ssh_key: >
+          ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGY
+          e7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoP
+          kcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0z
+          QPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbU
+          vxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCz
+          RdK8jlqm8tehUc9c9WhQ== vagrant insecure public key
+        sudoers: no
+      - name: user2
 
 Example Playbook
 ----------------
@@ -25,7 +40,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+         - { role: ansible-user, raxusers: [{ name: user1 }] }
 
 License
 -------
@@ -35,4 +50,5 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Javier Ayala
+[jayala@rackspace.com](jayala@rackspace.com)

@@ -18,3 +18,9 @@ def test_pci_user_creation(User, File, username):
     assert sshauthkey.user == username
     assert sshauthkey.group == username
     assert sshauthkey.contains("RdK8jlqm8tehUc9c9WhQ==")
+
+
+@pytest.mark.docker_images("node-a")
+def test_sudoers(File):
+    sudoersfile = File('/etc/sudoers')
+    assert sudoersfile.contains("deployment  ALL=(ALL)  NOPASSWD:ALL")
