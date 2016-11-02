@@ -1,6 +1,8 @@
 ansible-user
 =========
 
+[![Build Status](https://jenkins-dev.rakr.net/buildStatus/icon?job=Javier_Test/ansible-user)](https://jenkins-dev.rakr.net/job/Javier_Test/job/ansible-user/)
+
 This role creates the users needed on the servers for the rswebteam's users.
 
 Role Variables
