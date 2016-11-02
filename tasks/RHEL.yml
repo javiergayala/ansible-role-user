@@ -39,10 +39,19 @@
       generate_ssh_key: "{{ user_gen_sshkey }}"
     with_items: "{{ raxusers }}"
 
+  # Whether to remove all other non-specified keys from the authorized_keys
+  # file. Multiple keys can be specified in a single key string value by
+  # separating them by newlines.
+  # This option is not loop aware, so if you use with_ , it will be
+  # exclusive per iteration of the loop, if you want multiple keys in the
+  # file you need to pass them all to key in a single batch as mentioned
+  # above.
+
   - name: authorized_keys for users
     authorized_key:
       user: "{{ item.name }}"
       key: "{{ item.ssh_key }}"
+      exclusive: "{{ user_sshkey_exclusive }}"
     when: item.ssh_key is defined
     with_items: "{{ raxusers }}"
 
