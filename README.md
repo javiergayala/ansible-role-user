@@ -50,6 +50,39 @@ Including an example of how to use your role (for instance, with variables passe
          - { role: ansible-user, raxusers: [{ name: user1 }] }
 ```
 
+Testing
+-------
+
+You will need the following in order test and run this role:  
+
+- [Ansible](http://docs.ansible.com/ansible/intro_installation.html)  
+- [Docker](https://docs.docker.com/engine/installation/)  
+- Python modules listed in the ```pip-requirements.txt``` file  
+
+It is highly recommended that you use a virtualenv for testing.  The following is what is used in the Jenkins job that runs the automated tests for this role.
+
+```bash
+PYENV_HOME=$WORKSPACE/.pyenv/
+TEST_PATH=$WORKSPACE/tests/functional
+
+# Delete previously built virtualenv
+if [ -d $PYENV_HOME ]; then
+    rm -rf $PYENV_HOME
+fi
+
+# Create virtualenv and install necessary packages
+virtualenv --no-site-packages $PYENV_HOME
+. $PYENV_HOME/bin/activate
+pip install -r pip-requirements.txt
+
+# Run functional tests
+cd $TEST_PATH
+for i in $( /bin/ls -d */ ); do
+	cd $TEST_PATH/$i
+	molecule test
+done
+```
+
 License
 -------
 
