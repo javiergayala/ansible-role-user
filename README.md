@@ -15,7 +15,7 @@ Role Variables
   - ```sudoers```: if set to ```yes```, user will be added to the server's sudoers file.
 - ```user_sshkey_exclusive```: defaults to ```no```. Setting to ```yes``` tells ansible to manage the keys in the ```authorized_keys``` file, and removes any not defined in the play.
 
-
+```yml
     - raxusers:
       - name: deployment  
         groups: apache  
@@ -37,6 +37,7 @@ Role Variables
           RdK8jlqm8tehUc9c9WhQ== vagrant insecure public key  
         sudoers: no  
       - name: user2  
+```
 
 Example Playbook
 ----------------
