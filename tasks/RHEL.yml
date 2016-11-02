@@ -37,6 +37,7 @@
     user:
       name: "{{ item.name }}"
       generate_ssh_key: "{{ user_gen_sshkey }}"
+      groups: "{{ item.groups | default()}}"
     with_items: "{{ raxusers }}"
 
   # Whether to remove all other non-specified keys from the authorized_keys

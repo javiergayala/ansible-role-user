@@ -21,6 +21,12 @@ def test_pci_user_creation(User, File, username):
 
 
 @pytest.mark.docker_images("node-a")
+def test_secondary_group(User):
+    groupchk = User('deployment')
+    assert groupchk.groups == ['deployment', 'apache']
+
+
+@pytest.mark.docker_images("node-a")
 def test_sudoers(File):
     sudoersfile = File('/etc/sudoers')
     assert sudoersfile.contains("deployment  ALL=(ALL)  NOPASSWD:ALL")
