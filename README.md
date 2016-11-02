@@ -17,26 +17,26 @@ Role Variables
 
 
     - raxusers:
-      - name: deployment
-        groups: apache
-        ssh_key: >
+      - name: deployment  
+        groups: apache  
+        ssh_key: >  
           ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGY
           e7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoP
           kcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0z
           QPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbU
           vxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCz
-          RdK8jlqm8tehUc9c9WhQ== vagrant insecure public key
-        sudoers: yes
-      - name: user1
-        ssh_key: >
+          RdK8jlqm8tehUc9c9WhQ== vagrant insecure public key  
+        sudoers: yes  
+      - name: user1  
+        ssh_key: >  
           ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGY
           e7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoP
           kcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0z
           QPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbU
           vxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCz
-          RdK8jlqm8tehUc9c9WhQ== vagrant insecure public key
-        sudoers: no
-      - name: user2
+          RdK8jlqm8tehUc9c9WhQ== vagrant insecure public key  
+        sudoers: no  
+      - name: user2  
 
 Example Playbook
 ----------------
