@@ -16,7 +16,7 @@ Role Variables
 - ```user_sshkey_exclusive```: defaults to ```no```. Setting to ```yes``` tells ansible to manage the keys in the ```authorized_keys``` file, and removes any not defined in the play.
 
 ```yml
-    - raxusers:
+    raxusers:
       - name: deployment  
         groups: apache  
         ssh_key: >  
