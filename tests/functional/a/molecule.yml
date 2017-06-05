@@ -22,12 +22,14 @@ docker:
       command: '/lib/systemd/systemd'
       ansible_groups:
         - pci
+        - production
 verifier:
   name: testinfra
 ansible:
   config_file: ./ansible.cfg
   group_vars:
     pci:
+      region: 'test'
       raxusers:
         -
           name: deployment

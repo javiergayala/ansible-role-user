@@ -1,0 +1,25 @@
+---
+- block:
+  - name: Define prompt settings for production
+    set_fact:
+      defined_prompt: "{{ prompt_settings['production'] }}"
+    when: defined_prompt is not defined and 'production' in group_names
+  - name: Define prompt settings for staging
+    set_fact:
+      defined_prompt: "{{ prompt_settings['staging'] }}"
+    when: defined_prompt is not defined and 'staging' in group_names
+  - name: Define prompt settings for development
+    set_fact:
+      defined_prompt: "{{ prompt_settings['dev'] }}"
+    when: defined_prompt is not defined and 'dev' in group_names
+  - name: Define prompt settings for other
+    set_fact:
+      defined_prompt: "{{ prompt_settings['other'] }}"
+    when: defined_prompt is not defined
+  - name: Add the bash_prompt.sh template
+    template:
+      src: templates/bash_prompt.sh.j2
+      dest: /etc/profile.d/Z99-bash_prompt.sh
+      owner: root
+      mode: 0644
+  when: manage_prompt and manage_prompt is defined

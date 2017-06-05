@@ -18,12 +18,14 @@ docker:
       # privileged: True
       ansible_groups:
         - non-pci
+        - dev
 verifier:
   name: testinfra
 ansible:
   config_file: ./ansible.cfg
   group_vars:
     all:
+      region: test
       raxusers:
         -
           name: deployment

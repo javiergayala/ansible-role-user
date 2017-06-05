@@ -19,7 +19,11 @@ docker:
       # privileged: True
       ansible_groups:
         - notpci
+        - staging
 verifier:
   name: testinfra
 ansible:
   config_file: ./ansible.cfg
+  group_vars:
+    all:
+      region: test

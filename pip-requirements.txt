@@ -1,5 +1,5 @@
 #### Requirements to test and run this Playbook ####
-ansible >= 2.1.2.0
-ansible-lint >= 3.2.5
-molecule >= 1.12.6
-docker-py >= 1.10.4
+ansible >= 2.3.1.0
+ansible-lint >= 3.4.12
+molecule >= 1.25.0
+docker >= 2.3.0
