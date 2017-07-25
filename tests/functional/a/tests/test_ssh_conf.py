@@ -27,3 +27,5 @@ def test_sshd_conf(File):
     assert sshd_conf.contains("ChallengeResponseAuthentication no")
     assert sshd_conf.contains("PasswordAuthentication no")
     assert sshd_conf.contains("UsePAM yes")
+    assert sshd_conf.contains("ClientAliveInterval 300")
+    assert sshd_conf.contains("ClientAliveCountMax 3")

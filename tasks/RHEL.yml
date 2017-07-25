@@ -8,10 +8,18 @@
       line: "{{ item.line }}"
       backup: yes
     with_items:
-      - { regexp: '^(#)?PubkeyAuthentication (yes|no)$', line: 'PubkeyAuthentication yes' }
-      - { regexp: '^(#)?ChallengeResponseAuthentication (yes|no)$', line: 'ChallengeResponseAuthentication no' }
-      - { regexp: '^(#)?PasswordAuthentication (yes|no)$', line: 'PasswordAuthentication no' }
-      - { regexp: '^(#)?UsePAM (yes|no)$', line: 'UsePAM yes' }
+      - regexp: '^(#)?PubkeyAuthentication (yes|no)$'
+        line: "PubkeyAuthentication {{ sshd['PubkeyAuthentication'] | default('yes') }}"
+      - regexp: '^(#)?ChallengeResponseAuthentication (yes|no)$'
+        line: "ChallengeResponseAuthentication {{ sshd['ChallengeResponseAuthentication'] | default('no') }}"
+      - regexp: '^(#)?PasswordAuthentication (yes|no)$'
+        line: "PasswordAuthentication {{ sshd['PasswordAuthentication'] | default('no') }}"
+      - regexp: '^(#)?UsePAM (yes|no)$'
+        line: "UsePAM {{ sshd['UsePAM'] | default('yes') }}"
+      - regexp: '^(#)?ClientAliveInterval ([0-9])+$'
+        line: "ClientAliveInterval {{ sshd['ClientAliveInterval'] | default(300) }}"
+      - regexp: '^(#)?ClientAliveCountMax ([0-9])+$'
+        line: "ClientAliveCountMax {{ sshd['ClientAliveCountMax'] | default(3) }}"
     notify:
       - restart sshd
 

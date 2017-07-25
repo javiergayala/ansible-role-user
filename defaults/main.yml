@@ -13,6 +13,15 @@ user_gen_sshkey: yes
 # Allow Ansible to fully manage keys in authorized_keys
 user_sshkey_exclusive: no
 
+# sshd defaults for PCI
+sshd:
+  PubkeyAuthentication: 'yes'
+  ChallengeResponseAuthentication: 'no'
+  PasswordAuthentication: 'no'
+  UsePAM: 'yes'
+  ClientAliveInterval: 300
+  ClientAliveCountMax: 3
+
 # initialize raxusers
 raxusers: []
 
