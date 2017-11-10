@@ -6,14 +6,10 @@
     with_items: "{{ raxusers }}"
     when: item.use_os_prompt is defined and item.use_os_prompt
 
-  - debug: var=_prompt_ignore_users
-
   - name: Assemble the list of users not wanting a managed prompt
     set_fact:
       prompt_ignore_users: "{{ _prompt_ignore_users }}"
     when: prompt_ignore_users is not defined and (_prompt_ignore_users is defined and _prompt_ignore_users|length > 0)
-
-  - debug: var=prompt_ignore_users
 
   - name: Define prompt settings for production
     set_fact:
