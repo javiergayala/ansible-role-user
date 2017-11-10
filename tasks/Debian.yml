@@ -1,49 +1,51 @@
+---
 # ensure opnessh-client is installed (dependency of adding ssh keys)
 
 - name: ensure openssh-client is installed
   apt:
     name: openssh-client
     state: installed
-    update_cache: no
+    update_cache: "no"
 
-- block:
-  - name: create users
-    user:
-      name: "{{ item.name }}"
-      generate_ssh_key: "{{ user_gen_sshkey }}"
-      groups: "{{ item.groups | default()}}"
-    when: item.sudoers is undefined or not item.sudoers
-    with_items: "{{ raxusers }}"
+- name: Configure Users in Debian
+  block:
+    - name: create users
+      user:
+        name: "{{ item.name }}"
+        generate_ssh_key: "{{ user_gen_sshkey }}"
+        groups: "{{ item.groups | default()}}"
+      when: item.sudoers is undefined or not item.sudoers
+      with_items: "{{ raxusers }}"
 
-  - name: create users in sudo group
-    user:
-      name: "{{ item.name }}"
-      generate_ssh_key: "{{ user_gen_sshkey }}"
-      groups: "{{ item.groups | default() + 'sudo'}}"
-    when: item.sudoers is defined and item.sudoers
-    with_items: "{{ raxusers }}"
+    - name: create users in sudo group
+      user:
+        name: "{{ item.name }}"
+        generate_ssh_key: "{{ user_gen_sshkey }}"
+        groups: "{{ item.groups | default() + 'sudo'}}"
+      when: item.sudoers is defined and item.sudoers
+      with_items: "{{ raxusers }}"
 
-  # Whether to remove all other non-specified keys from the authorized_keys
-  # file. Multiple keys can be specified in a single key string value by
-  # separating them by newlines.
-  # This option is not loop aware, so if you use with_ , it will be
-  # exclusive per iteration of the loop, if you want multiple keys in the
-  # file you need to pass them all to key in a single batch as mentioned
-  # above.
+    # Whether to remove all other non-specified keys from the authorized_keys
+    # file. Multiple keys can be specified in a single key string value by
+    # separating them by newlines.
+    # This option is not loop aware, so if you use with_ , it will be
+    # exclusive per iteration of the loop, if you want multiple keys in the
+    # file you need to pass them all to key in a single batch as mentioned
+    # above.
 
-  - name: authorized_keys for users
-    authorized_key:
-      user: "{{ item.name }}"
-      key: "{{ item.ssh_key }}"
-      exclusive: "{{ user_sshkey_exclusive }}"
-    when: item.ssh_key is defined
-    with_items: "{{ raxusers }}"
+    - name: authorized_keys for users
+      authorized_key:
+        user: "{{ item.name }}"
+        key: "{{ item.ssh_key }}"
+        exclusive: "{{ user_sshkey_exclusive }}"
+      when: item.ssh_key is defined
+      with_items: "{{ raxusers }}"
 
-  - name: add user to sudoers file
-    lineinfile:
-      dest: /etc/sudoers
-      regexp: "^{{ item.name }}.*ALL$"
-      line: "{{ item.name }}  ALL=(ALL)  NOPASSWD:ALL"
-    when: item.sudoers is defined and item.sudoers
-    with_items: "{{ raxusers }}"
+    - name: add user to sudoers file
+      lineinfile:
+        dest: /etc/sudoers
+        regexp: "^{{ item.name }}.*ALL$"
+        line: "{{ item.name }}  ALL=(ALL)  NOPASSWD:ALL"
+      when: item.sudoers is defined and item.sudoers
+      with_items: "{{ raxusers }}"
   when: raxusers|length > 0
