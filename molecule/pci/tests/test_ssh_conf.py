@@ -16,9 +16,15 @@ def test_pci_user_creation(host, username):
     assert not sshauthkey.exists
 
 
-@pytest.mark.parametrize("username", ["jenkins"])
-def test_prompt_ignore_user(host, username):
-    userchk = host.user(username)
-    bash_prompt = host.file('/etc/profile.d/Z99-bash_prompt.sh')
-    assert userchk.exists
-    assert bash_prompt.contains(re.escape('jenkins'))
+@pytest.mark.parametrize('config_line', [
+  'PubkeyAuthentication yes',
+  'ChallengeResponseAuthentication no',
+  'PasswordAuthentication no',
+  'UsePAM yes',
+  'ClientAliveInterval 300',
+  'ClientAliveCountMax 3'
+])
+def test_sshd_conf(host, config_line):
+    sshd_conf = host.file('/etc/ssh/sshd_config')
+    regextest = re.escape(config_line)
+    assert sshd_conf.contains('^{}$'.format(regextest))
