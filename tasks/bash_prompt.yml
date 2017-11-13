@@ -1,5 +1,16 @@
 ---
 - block:
+  - name: Figure out which users don't want their prompt managed
+    set_fact:
+      _prompt_ignore_users: "{{ _prompt_ignore_users | default([])}} + [ '{{ item.name }}']"
+    with_items: "{{ raxusers }}"
+    when: item.use_os_prompt is defined and item.use_os_prompt
+
+  - name: Assemble the list of users not wanting a managed prompt
+    set_fact:
+      prompt_ignore_users: "{{ _prompt_ignore_users }}"
+    when: prompt_ignore_users is not defined and (_prompt_ignore_users is defined and _prompt_ignore_users|length > 0)
+
   - name: Define prompt settings for production
     set_fact:
       defined_prompt: "{{ prompt_settings['production'] }}"

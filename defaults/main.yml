@@ -9,9 +9,9 @@ user_inactive_days_pci: 45
 # Path to the useradd file
 user_useradd_path: "/etc/default/useradd"
 # Generate SSH key
-user_gen_sshkey: yes
+user_gen_sshkey: "yes"
 # Allow Ansible to fully manage keys in authorized_keys
-user_sshkey_exclusive: no
+user_sshkey_exclusive: "no"
 
 # sshd defaults for PCI
 sshd:
@@ -26,7 +26,7 @@ sshd:
 raxusers: []
 
 # Whether or not to manage the bash_prompt
-manage_prompt: True
+manage_prompt: "True"
 
 # Dictionary containing the settings for the bash prompt based on the env.
 prompt_settings:

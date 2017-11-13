@@ -1,4 +1,5 @@
 roles/
+junit.xml
 .vagrant
 .molecule
 tests/__pycache__

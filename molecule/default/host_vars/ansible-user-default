@@ -1,0 +1,6 @@
+---
+region: test
+raxusers:
+  -
+    name: jenkins
+    use_os_prompt: "yes"
