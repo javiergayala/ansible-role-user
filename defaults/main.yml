@@ -1,5 +1,12 @@
 ---
 # defaults file for javiergayala.user
+
+#  ____        __             _ _
+# |  _ \  ___ / _| __ _ _   _| | |_ ___
+# | | | |/ _ \ |_ / _` | | | | | __/ __|
+# | |_| |  __/  _| (_| | |_| | | |_\__ \
+# |____/ \___|_|  \__,_|\__,_|_|\__|___/
+
 # Maximum number of days before password must be changed
 user_pass_max_days: 90
 # Path to the login.defs file
@@ -14,6 +21,11 @@ user_gen_sshkey: "yes"
 user_sshkey_exclusive: "no"
 
 # sshd defaults for PCI
+#          _         _
+#  ___ ___| |__   __| |
+# / __/ __| '_ \ / _` |
+# \__ \__ \ | | | (_| |
+# |___/___/_| |_|\__,_|
 sshd:
   PubkeyAuthentication: 'yes'
   ChallengeResponseAuthentication: 'no'
@@ -22,9 +34,34 @@ sshd:
   ClientAliveInterval: 300
   ClientAliveCountMax: 3
 
+#                _
+#  ___ _   _  __| | ___   ___ _ __ ___
+# / __| | | |/ _` |/ _ \ / _ \ '__/ __|
+# \__ \ |_| | (_| | (_) |  __/ |  \__ \
+# |___/\__,_|\__,_|\___/ \___|_|  |___/
+
+# user ALL = (ALL) NOPASSWD: ALL
+# user hosts = (run_as) NOPASSWD: commands
+user_sudo:
+  passwordless: "False"
+  hosts: "ALL"
+  run_as: "(ALL)"
+  commands: "ALL"
+
+#  _ __ __ ___  ___   _ ___  ___ _ __ ___
+# | '__/ _` \ \/ / | | / __|/ _ \ '__/ __|
+# | | | (_| |>  <| |_| \__ \  __/ |  \__ \
+# |_|  \__,_/_/\_\\__,_|___/\___|_|  |___/
+
 # initialize raxusers
 raxusers: []
 
+#  _               _                                       _
+# | |__   __ _ ___| |__    _ __  _ __ ___  _ __ ___  _ __ | |_
+# | '_ \ / _` / __| '_ \  | '_ \| '__/ _ \| '_ ` _ \| '_ \| __|
+# | |_) | (_| \__ \ | | | | |_) | | | (_) | | | | | | |_) | |_
+# |_.__/ \__,_|___/_| |_| | .__/|_|  \___/|_| |_| |_| .__/ \__|
+#                         |_|                       |_|
 # Whether or not to manage the bash_prompt
 manage_prompt: "True"
 

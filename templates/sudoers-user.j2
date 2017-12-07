@@ -1,0 +1,4 @@
+# {{ ansible_managed }}
+
+# User rules for {{ item.name }}
+{{ item.name }} {{ item.sudo_opts.hosts | default('ALL') }}={{ item.sudo_opts.run_as | default('(ALL)') }} {% if  item.sudo_opts.passwordless is defined and item.sudo_opts.passwordless %}NOPASSWD:{% endif %}{{ item.sudo_opts.commands | default('ALL') }}
