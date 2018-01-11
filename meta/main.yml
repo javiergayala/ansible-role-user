@@ -53,7 +53,7 @@ galaxy_info:
       versions:
         #  - all
         #  - 5
-        - 6
+        # - 6
         - 7
 
   galaxy_tags: []
