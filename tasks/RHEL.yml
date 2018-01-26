@@ -78,20 +78,12 @@
       when: (item.sudoers is defined and item.sudoers) and item.sudo_opts is undefined
       with_items: "{{ raxusers }}"
 
-    - name: add user to sudoers file (< RHEL7)
-      lineinfile:
-        dest: /etc/sudoers
-        regexp: "^{{ item.name }}.*ALL$"
-        line: "{{ item.name }}  {{ item.hosts | default('ALL') }}={{ item.run_as | default('(ALL)') }}  {% if not item.require_pw %}NOPASSWD:{% endif %}{{ commands | default('ALL') }}"
-      when: (item.sudoers is defined and item.sudoers) and ansible_distribution_major_version < "7"
-      with_items: "{{ raxsudoers }}"
-
-    - name: create user sudoers file (>=RHEL7)
+    - name: create user sudoers file
       template:
         src: templates/sudoers-user.j2
         dest: "/etc/sudoers.d/99-{{ item.name }}"
         validate: '/usr/sbin/visudo -cf %s'
-      when: (item.sudoers is defined and item.sudoers) and ansible_distribution_major_version >= "7"
+      when: (item.sudoers is defined and item.sudoers)
       with_items: "{{ raxsudoers }}"
 
   when: raxusers|length > 0

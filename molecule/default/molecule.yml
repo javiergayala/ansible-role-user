@@ -13,6 +13,11 @@ platforms:
     groups:
       - non-pci
       - non_pci
+  - name: ansible-user-default-centos6
+    image: geerlingguy/docker-centos6-ansible
+    groups:
+      - non-pci
+      - non_pci
 provisioner:
   name: ansible
   config_options:
@@ -24,6 +29,8 @@ provisioner:
       host_vars: ../host_vars
   lint:
     name: ansible-lint
+    options:
+      force-color: True
 scenario:
   name: default
 verifier:

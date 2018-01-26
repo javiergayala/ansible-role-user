@@ -2,3 +2,4 @@
 
 # User rules for {{ item.name }}
 {{ item.name }} {{ item.sudo_opts.hosts | default('ALL') }}={{ item.sudo_opts.run_as | default('(ALL)') }} {% if  item.sudo_opts.passwordless is defined and item.sudo_opts.passwordless %}NOPASSWD:{% endif %}{{ item.sudo_opts.commands | default('ALL') }}
+{% if  item.sudo_opts.requiretty is defined and item.sudo_opts.requiretty | bool() is sameas false %}Defaults:{{ item.name }} !requiretty{% endif %}
