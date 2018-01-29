@@ -12,9 +12,3 @@ raxusers:
     sudoers: "yes"
     sudo_opts:
       passwordless: "True"
-  -
-    name: rswebnotty
-    sudoers: "yes"
-    sudo_opts:
-      passwordless: "True"
-      requiretty: "False"
