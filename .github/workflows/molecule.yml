@@ -16,6 +16,6 @@ jobs:
         with:
           path: "${{ github.repository }}"
       - name: Molecule
-        uses: gofrolist/molecule-action@v1
+        uses: gofrolist/molecule-action@master
         with:
           molecule_command: test
