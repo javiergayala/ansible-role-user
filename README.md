@@ -6,7 +6,7 @@ This role creates the users needed on the servers for the rswebteam's users.
 
 ## Role Variables
 
-- `raxusers`: list containing dictionaries of users to add
+- `users_list`: list containing dictionaries of users to add
 
   - `name`: username to create
   - `groups`: comma delimited list of secondary groups. Defaults to none.
@@ -25,28 +25,28 @@ This role creates the users needed on the servers for the rswebteam's users.
   - `use_os_prompt`: defaults to `no`. Setting to `yes` or `True` will make it so that this user does **NOT** use the specialized bash prompt. This is useful for service accounts, such as the `jenkins` or `rswebteam` deployment account, or any accounts that do not use a `TTY`.
 
 ```yml
-    raxusers:
-      - name: deployment  
-        groups: apache  
-        ssh_key: >  
-          ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGY
-          e7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoP
-          kcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0z
-          QPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbU
-          vxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCz
-          RdK8jlqm8tehUc9c9WhQ== vagrant insecure public key  
-        sudoers: "yes"
-        sudo_opts:
-          passwordless: "True"
-          hosts: "ALL"
-          run_as: "(ALL)"
-          commands: "ALL"
-          requiretty: "False"
-        use_os_prompt: "yes"
-      - name: user1  
-        ssh_key: https://github.com/javiergayala.keys  
-        sudoers: "no"  
-      - name: user2
+users_list:
+  - name: deployment
+    groups: apache
+    ssh_key: >
+      ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGY
+      XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      RdK8jlqm8tehUc9c9WhQ== vagrant insecure public key
+    sudoers: "yes"
+    sudo_opts:
+      passwordless: "True"
+      hosts: "ALL"
+      run_as: "(ALL)"
+      commands: "ALL"
+      requiretty: "False"
+    use_os_prompt: "yes"
+  - name: user1
+    ssh_key: https://github.com/javiergayala.keys
+    sudoers: "no"
+  - name: user2
 ```
 
 ## Example Playbook
@@ -54,9 +54,9 @@ This role creates the users needed on the servers for the rswebteam's users.
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
 ```yml
-    - hosts: servers
-      roles:
-         - { role: ansible-user, raxusers: [{ name: user1 }] }
+- hosts: servers
+  roles:
+    - { role: ansible-user, users_list: [{ name: user1 }] }
 ```
 
 ## Testing
@@ -91,4 +91,4 @@ BSD
 
 ## Author Information
 
-Javier Ayala [jayala@rackspace.com](mailto:jayala@rackspace.com)
+Javier Ayala [javier.g.ayala@gmail.com](mailto:javier.g.ayala@gmail.com)

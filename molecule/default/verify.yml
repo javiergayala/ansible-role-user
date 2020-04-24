@@ -1,0 +1,36 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  tasks:
+    - name: Debian Specific Tests
+      block:
+        - name: Validate "INACTIVE" setting for Debian
+          lineinfile:
+            path: "/etc/default/useradd"
+            regexp: "^# INACTIVE=-1\\s+$"
+            line: "# INACTIVE=-1"
+            state: present
+          register: inactive_validation
+        - name: Assert "INACTIVE" Validation for Debian
+          assert:
+            that:
+              - not inactive_validation.changed
+      when: ansible_os_family == "Debian"
+    - name: RHEL Specific Tests
+      block:
+        - name: Validate "INACTIVE" setting for RedHat
+          lineinfile:
+            path: "/etc/default/useradd"
+            regexp: "^INACTIVE=-1\\s+$"
+            line: "INACTIVE=-1"
+            state: present
+          register: inactive_validation
+        - name: Assert "INACTIVE" Validation for RedHat
+          assert:
+            that:
+              - not inactive_validation.changed
+      when: ansible_os_family == "RedHat"
+    - debug:
+        msg: "OS Family: {{ ansible_os_family }}"

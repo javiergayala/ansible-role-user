@@ -3,39 +3,32 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint:
-  name: yamllint
-  options:
-    config-file: .yamllint
+lint: |
+  yamllint -c .yamllint .
+  ansible-lint .
 platforms:
-  - name: ansible-user-default
-    image: geerlingguy/docker-centos7-ansible
+  - name: centos7
+    image: docker.io/pycontribs/centos:7
+    pre_build_image: true
     groups:
-      - non-pci
-      - non_pci
-  - name: ansible-user-default-centos6
-    image: geerlingguy/docker-centos6-ansible
+      - user_test
+  - name: centos8
+    image: docker.io/pycontribs/centos:8
+    pre_build_image: true
     groups:
-      - non-pci
-      - non_pci
+      - user_test
+  - name: debian
+    image: docker.io/pycontribs/debian:latest
+    pre_build_image: true
+    groups:
+      - user_test
+  - name: ubuntu
+    image: docker.io/pycontribs/ubuntu:latest
+    pre_build_image: true
+    groups:
+      - user_test
 provisioner:
   name: ansible
-  config_options:
-    defaults:
-      vault_password_file: "../../.vault"
-  inventory:
-    links:
-      # group_vars: ../../../inventory/group_vars/
-      host_vars: ../host_vars
-  lint:
-    name: ansible-lint
-    options:
-      force-color: True
-scenario:
-  name: default
+  log: true
 verifier:
-  name: testinfra
-  options:
-    junit-xml: junit.xml
-  lint:
-    name: flake8
+  name: ansible
