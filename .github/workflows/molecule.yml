@@ -1,0 +1,19 @@
+---
+name: Molecule
+on:
+  push:
+    branches:
+      - refresh
+  pull_request:
+    branches:
+      - master
+jobs:
+  molecule:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: "${{ github.repository }}"
+      - name: Molecule
+        uses: gofrolist/molecule-action@v1
