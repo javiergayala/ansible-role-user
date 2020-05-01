@@ -3,7 +3,28 @@
 
 - name: Verify
   hosts: all
+  vars:
+    _bash_prompt: !unsafe PS1="[$(tput sgr0)][$(tput bold)][\033[38;5;11m]\u[$(tput sgr0)][\033[38;5;15m]@\h [$(tput bold)][$(tput sgr0)][$(tput bold)][\033[38;5;196m]|UNKNOWN|[$(tput sgr0)][$(tput sgr0)][\033[38;5;15m]:\n[$(tput sgr0)][\033[38;5;6m][\w][$(tput bold)][$(tput sgr0)][\033[38;5;46m]>[$(tput sgr0)][$(tput sgr0)][\033[38;5;15m] [$(tput sgr0)]"
   tasks:
+    - name: Universal Tests
+      block:
+        - name: Validate password MAX DAYS setting
+          lineinfile:
+            path: /etc/login.defs
+            regexp: "PASS_MAX_DAYS(\\t+)(99999)"
+            line: 'PASS_MAX_DAYS\1\2'
+            backrefs: yes
+            state: present
+          register: pass_max_days_validation
+          failed_when: pass_max_days_validation is changed
+        - name: Validate BASH prompt
+          lineinfile:
+            path: /etc/profile.d/Z99-bash_prompt.
+            regexp: "{{ _bash_prompt | regex_escape }}"
+            line: "{{ _bash_prompt }}"
+            state: present
+          register: bash_prompt_validation
+          failed_when: bash_prompt_validation is changed
     - name: Debian Specific Tests
       block:
         - name: Validate "INACTIVE" setting for Debian
@@ -13,10 +34,7 @@
             line: "# INACTIVE=-1"
             state: present
           register: inactive_validation
-        - name: Assert "INACTIVE" Validation for Debian
-          assert:
-            that:
-              - not inactive_validation.changed
+          failed_when: inactive_validation is changed
       when: ansible_os_family == "Debian"
     - name: RHEL Specific Tests
       block:
@@ -27,10 +45,5 @@
             line: "INACTIVE=-1"
             state: present
           register: inactive_validation
-        - name: Assert "INACTIVE" Validation for RedHat
-          assert:
-            that:
-              - not inactive_validation.changed
+          failed_when: inactive_validation is changed
       when: ansible_os_family == "RedHat"
-    - debug:
-        msg: "OS Family: {{ ansible_os_family }}"
