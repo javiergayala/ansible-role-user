@@ -1,7 +1,51 @@
 ---
 # tasks file for javiergayala.user
-- include: RHEL.yml
-  when: ansible_os_family == "RedHat"
-- include: Debian.yml
+- name: ensure openssh-client is installed
+  apt:
+    name: openssh-client
+    state: present
+    update_cache: "yes"
   when: ansible_os_family == "Debian"
+- name: ensure sshd only accepts key-based auth
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    state: present
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    backup: "yes"
+  with_items:
+    - regexp: "^(#)?PubkeyAuthentication (yes|no)$"
+      line: "PubkeyAuthentication {{ sshd['PubkeyAuthentication'] | default('yes') }}"
+    - regexp: "^(#)?ChallengeResponseAuthentication (yes|no)$"
+      line: "ChallengeResponseAuthentication {{ sshd['ChallengeResponseAuthentication'] | default('no') }}"
+    - regexp: "^(#)?PasswordAuthentication (yes|no)$"
+      line: "PasswordAuthentication {{ sshd['PasswordAuthentication'] | default('no') }}"
+    - regexp: "^(#)?UsePAM (yes|no)$"
+      line: "UsePAM {{ sshd['UsePAM'] | default('yes') }}"
+    - regexp: "^(#)?ClientAliveInterval ([0-9])+$"
+      line: "ClientAliveInterval {{ sshd['ClientAliveInterval'] | default(300) }}"
+    - regexp: "^(#)?ClientAliveCountMax ([0-9])+$"
+      line: "ClientAliveCountMax {{ sshd['ClientAliveCountMax'] | default(3) }}"
+  notify:
+    - restart sshd
+  when: sshd_key_auth_only|bool
+
+- name: ensure password expiration is set in login.defs
+  lineinfile:
+    dest: "{{ user_login_defs_path }}"
+    state: present
+    regexp: ^PASS_MAX_DAYS\s+\d+$
+    line: "PASS_MAX_DAYS {{ user_pass_max_days }}"
+    backup: "yes"
+  when: user_pass_max_enforce|bool
+
+- name: set accounts to auto lock if they are inactive for a number of days
+  lineinfile:
+    dest: "{{ user_useradd_path }}"
+    state: present
+    regexp: ^INACTIVE=
+    line: "INACTIVE={{ user_inactive_days }}"
+    backup: "yes"
+  when: user_inactive_auto_lock|bool
+- include: users.yml
 - include: bash_prompt.yml
