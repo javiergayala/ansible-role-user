@@ -47,8 +47,5 @@
     line: "INACTIVE={{ user_inactive_days }}"
     backup: "yes"
   when: user_inactive_auto_lock|bool
-- include: RHEL.yml
-  when: ansible_os_family == "RedHat"
-- include: Debian.yml
-  when: ansible_os_family == "Debian"
+- include: users.yml
 - include: bash_prompt.yml

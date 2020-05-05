@@ -1,5 +1,5 @@
 ---
-- name: Configure Users in RHEL
+- name: Configure Users
   block:
     - name: create users
       user:
@@ -35,6 +35,16 @@
         sudoers_list: "{{ sudoers_list|default([]) }} + [ {{ item|combine( {'sudo_opts':{} } ) }} ]"
       when: (item.sudoers is defined and item.sudoers) and item.sudo_opts is undefined
       with_items: "{{ users_list }}"
+
+    - name: ensure that the sudoers file has an include for /etc/sudoers.d
+      lineinfile:
+        path: "/etc/sudoers"
+        regexp: "^(#)?includedir /etc/sudoers.d(\\s+)?$"
+        line: "includedir /etc/sudoers.d"
+        state: present
+      when:
+        - sudoers_list is defined
+        - sudoers_list | length  > 0
 
     - name: create user sudoers file
       template:

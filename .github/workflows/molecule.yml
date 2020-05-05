@@ -16,7 +16,7 @@ jobs:
         with:
           path: "${{ github.repository }}"
       - name: Molecule
-        uses: javiergayala/molecule-action@master
+        uses: javiergayala/molecule-action@v3.0.4
         with:
           molecule_command: test
           # molecule_args: "--all"

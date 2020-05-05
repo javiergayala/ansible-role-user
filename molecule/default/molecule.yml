@@ -30,5 +30,15 @@ platforms:
 provisioner:
   name: ansible
   log: true
+  inventory:
+    group_vars:
+      all:
+        users_list:
+          - name: deployment
+            sudoers: no
+          - name: jenkins
+            use_os_prompt: yes
+          - name: mysudo
+            sudoers: yes
 verifier:
   name: ansible

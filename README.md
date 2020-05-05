@@ -1,8 +1,6 @@
-# ansible-user
+# javiergayala.users
 
-[![Build Status](https://jenkins-dev.rakr.net/buildStatus/icon?job=Javier_Test/ansible-user&style=flat)](https://jenkins-dev.rakr.net/job/Javier_Test/job/ansible-user/)
-
-This role creates the users needed on the servers for the rswebteam's users.
+This is an opinionated role that creates users on servers.
 
 ## Role Variables
 
@@ -51,12 +49,10 @@ users_list:
 
 ## Example Playbook
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
 ```yml
 - hosts: servers
   roles:
-    - { role: ansible-user, users_list: [{ name: user1 }] }
+    - { role: javiergayala.users, users_list: [{ name: user1 }] }
 ```
 
 ## Testing
@@ -66,8 +62,9 @@ You will need the following in order test and run this role:
 - [Ansible](http://docs.ansible.com/ansible/intro_installation.html)
 - [Docker](https://docs.docker.com/engine/installation/)
 - Python modules listed in the `pip-requirements.txt` file
+- [Molecule](https://molecule.readthedocs.io/)
 
-It is highly recommended that you use a virtualenv for testing. The following is what is used in the Jenkins job that runs the automated tests for this role.
+It is highly recommended that you use a virtualenv for testing:
 
 ```bash
 PYENV_HOME=$WORKSPACE/.pyenv/

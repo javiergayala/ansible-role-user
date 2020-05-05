@@ -3,8 +3,18 @@
 
 - name: Verify
   hosts: all
+  check_mode: true
   vars:
+    _regex_space_match: '(\s+)?'
     _bash_prompt: !unsafe PS1="[$(tput sgr0)][$(tput bold)][\033[38;5;11m]\u[$(tput sgr0)][\033[38;5;15m]@\h [$(tput bold)][$(tput sgr0)][$(tput bold)][\033[38;5;196m]|UNKNOWN|[$(tput sgr0)][$(tput sgr0)][\033[38;5;15m]:\n[$(tput sgr0)][\033[38;5;6m][\w][$(tput bold)][$(tput sgr0)][\033[38;5;46m]>[$(tput sgr0)][$(tput sgr0)][\033[38;5;15m] [$(tput sgr0)]"
+    _bash_prompt_regex: !unsafe "{{ _regex_space_match }}{{ _bash_prompt }}"
+    _bash_prompt_line: "\\1{{ _bash_prompt }}"
+    _bash_prompt_exclusion: 'elif [ $(whoami) = "jenkins" ]; then'
+    _sudo_user: mysudo
+    _users_to_test:
+      - deployment
+      - jenkins
+      - mysudo
   tasks:
     - name: Universal Tests
       block:
@@ -17,14 +27,66 @@
             state: present
           register: pass_max_days_validation
           failed_when: pass_max_days_validation is changed
-        - name: Validate BASH prompt
+        # - name: Validate BASH prompt
+        #   lineinfile:
+        #     path: /etc/profile.d/Z99-bash_prompt.sh
+        #     regexp: "{{ _bash_prompt_regex | regex_escape }}"
+        #     line: "{{ _bash_prompt_line }}"
+        #     state: present
+        #   register: bash_prompt_validation
+        #   failed_when: bash_prompt_validation is changed
+        - name: Validate BASH prompt exclusion
           lineinfile:
-            path: /etc/profile.d/Z99-bash_prompt.
-            regexp: "{{ _bash_prompt | regex_escape }}"
-            line: "{{ _bash_prompt }}"
+            path: /etc/profile.d/Z99-bash_prompt.sh
+            regexp: "{{ _bash_prompt_exclusion | regex_escape }}"
+            line: "{{ _bash_prompt_exclusion }}"
             state: present
-          register: bash_prompt_validation
-          failed_when: bash_prompt_validation is changed
+          register: bash_prompt_exclustion_validation
+          failed_when: bash_prompt_exclustion_validation is changed
+        - name: Validate User Creation
+          user:
+            name: "{{ item }}"
+          register: user_validation
+          failed_when: user_validation is changed
+          loop: "{{ _users_to_test }}"
+        - name: Validate SSH Configuration
+          lineinfile:
+            path: /etc/ssh/sshd_config
+            regexp: "{{ item.regexp }}"
+            line: "{{ item.line }}"
+            backrefs: yes
+            state: present
+          register: ssh_validation
+          failed_when: ssh_validation is changed
+          loop:
+            - regexp: "(#)?PubkeyAuthentication yes"
+              line: '\1PubkeyAuthentication yes'
+            - regexp: "ChallengeResponseAuthentication no"
+              line: "ChallengeResponseAuthentication no"
+            - regexp: "PasswordAuthentication yes"
+              line: "PasswordAuthentication yes"
+            - regexp: "UsePAM yes"
+              line: "UsePAM yes"
+            - regexp: "(#)?ClientAliveInterval 0"
+              line: '\1ClientAliveInterval 0'
+            - regexp: "(#)?ClientAliveCountMax 3"
+              line: '\1ClientAliveCountMax 3'
+        - name: Validate sudoers include enabled
+          lineinfile:
+            path: /etc/sudoers
+            regexp: "^includedir /etc/sudoers.d\\s+$"
+            line: "includedir /etc/sudoers.d"
+            state: present
+          register: sudoers_include_validation
+          failed_when: sudoers_include_validation is changed
+        - name: Validate SUDO users
+          lineinfile:
+            path: "/etc/sudoers.d/99-{{ _sudo_user }}"
+            regexp: "{{ _sudo_user }} ALL=(ALL) ALL"
+            line: "{{ _sudo_user }} ALL=(ALL) ALL"
+            state: present
+          register: sudo_user_validation
+          failed_when: sudo_user_validation is changed
     - name: Debian Specific Tests
       block:
         - name: Validate "INACTIVE" setting for Debian
