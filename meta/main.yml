@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: users
   author: Javier G. Ayala
   description: Add and configure user accounts
 
@@ -16,7 +17,7 @@ galaxy_info:
   # - CC-BY
   license: GPLv3
 
-  min_ansible_version: 2.1
+  min_ansible_version: 2.9
 
   # Optionally specify the branch Galaxy will use when accessing the GitHub
   # repo for this role. During role install, if no tags are available,
@@ -32,30 +33,26 @@ galaxy_info:
   # platform on this list, let us know and we'll get it added!
   #
   platforms:
+    - name: Amazon Linux 2
+      versions:
+        - any
+    - name: Debian
+      versions:
+        - buster
     - name: Ubuntu
       versions:
-        #  - all
-        #  - lucid
-        #  - maverick
-        #  - natty
-        #  - oneiric
-        #  - precise
-        #  - quantal
-        #  - raring
-        #  - saucy
-        #  - trusty
-        #  - utopic
-        #  - vivid
-        #  - wily
-        - xenial
+        - bionic
+        - eoan
+        - focal
     - name: EL
       versions:
-        #  - all
-        #  - 5
-        # - 6
         - 7
+        - 8
 
-  galaxy_tags: []
+  galaxy_tags:
+    - system
+    - users
+    - user
   # List tags for your role here, one per line. A tag is
   # a keyword that describes and categorizes the role.
   # Users find roles by searching for tags. Be sure to

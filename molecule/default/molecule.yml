@@ -7,6 +7,12 @@ lint: |
   yamllint -c .yamllint .
   ansible-lint .
 platforms:
+  - name: amazonlinux2
+    image: amazonlinux:2
+    pre_build_image: true
+    groups:
+      - user_test
+      - amazonlinux
   - name: centos7
     image: docker.io/pycontribs/centos:7
     pre_build_image: true
@@ -17,16 +23,30 @@ platforms:
     pre_build_image: true
     groups:
       - user_test
-  - name: debian
-    image: docker.io/pycontribs/debian:latest
+  - name: debian-buster
+    image: debian:buster
     pre_build_image: true
     groups:
       - user_test
-  - name: ubuntu
-    image: docker.io/pycontribs/ubuntu:latest
+      - debian
+  - name: ubuntu-bionic
+    image: ubuntu:bionic
     pre_build_image: true
     groups:
       - user_test
+      - debian
+  - name: ubuntu-eoan
+    image: ubuntu:eoan
+    pre_build_image: true
+    groups:
+      - user_test
+      - debian
+  - name: ubuntu-focal
+    image: ubuntu:focal
+    pre_build_image: true
+    groups:
+      - user_test
+      - debian
 provisioner:
   name: ansible
   log: true
