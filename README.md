@@ -1,5 +1,7 @@
 # javiergayala.users
 
+![Molecule](https://github.com/javiergayala/ansible-role-user/workflows/Molecule/badge.svg)
+
 This is an opinionated role that creates users on servers.
 
 ## Role Variables
