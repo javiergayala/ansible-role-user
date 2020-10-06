@@ -74,8 +74,8 @@
         - name: Validate sudoers include enabled
           lineinfile:
             path: /etc/sudoers
-            regexp: "^includedir /etc/sudoers.d\\s+$"
-            line: "includedir /etc/sudoers.d"
+            regexp: "^(#)?includedir /etc/sudoers.d\\s+$"
+            line: "#includedir /etc/sudoers.d"
             state: present
           register: sudoers_include_validation
           failed_when: sudoers_include_validation is changed

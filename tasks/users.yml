@@ -40,7 +40,7 @@
       lineinfile:
         path: "/etc/sudoers"
         regexp: "^(#)?includedir /etc/sudoers.d(\\s+)?$"
-        line: "includedir /etc/sudoers.d"
+        line: "#includedir /etc/sudoers.d"
         state: present
       when:
         - sudoers_list is defined
