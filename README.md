@@ -1,6 +1,6 @@
 # javiergayala.users
 
-![Molecule](https://github.com/javiergayala/ansible-role-user/workflows/Molecule/badge.svg)
+![Molecule](https://github.com/javiergayala/ansible-role-user/workflows/Molecule/badge.svg) ![Ansible Role](https://img.shields.io/ansible/role/48462) ![Ansible Role](https://img.shields.io/ansible/role/d/48462) ![Ansible Quality Score](https://img.shields.io/ansible/quality/48462)
 
 This is an opinionated role that creates users on servers.
 
